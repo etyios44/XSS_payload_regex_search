@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter xss payloads</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body onload="loadDoc()" >
+
+<div class="container">
+    <div class="form-group">
+      <h2>Payloadbox xss filter</h2>
+        <p><b>URL in "./URL.xml" :</b></p>
+        <p id="demo"></p>
+        <label for="inclus">Include Regex : </label>
+        <p>example : script|prompt</p>
+        <input type="text" class="form-control" id="inclus">    
+        <label for="exclus">Exclude Regex : </label>
+        <p>example : a\(|svg</p>
+        <input type="text" class="form-control" id="exclus" value="unexpected">   
+        <button type="submit" onclick="recherche(exclus.value,inclus.value)" class="btn btn-primary btn-block">Recherche</button>
+        
+        <p id="result"></p>
+    </div>
+</div>
+
+<script>
+  let table = "";
+  let table2 = "";
+
+  function loadDoc() {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function() {
+      loadURLs(this);
+      let t = "";
+      //console.log(table);
+      for (let i = 0; i <table.split("\n").length; i++) { 
+        t = table.split("\n");
+        if (t[i] !=="") {
+          console.log(t[i]);
+          loadXMLDoc(t[i]);
+        }
+      }
+    }
+    xhttp.open("GET", "URL.xml");
+    xhttp.send();
+  }
+  
+  function loadURLs(xml) {
+    const xmlDoc = xml.responseXML;
+    const x = xmlDoc.getElementsByTagName("URL");
+    
+    for (let i = 0; i <x.length; i++) { 
+      //console.log(x[i].childNodes[0].nodeValue);
+      //table += x[i].getElementsByTagName("URL")[0].childNodes[0].nodeValue + "\n";
+      table += x[i].childNodes[0].nodeValue + "\n";
+      table2 += "<li class=\"list-group-item\">" + x[i].childNodes[0].nodeValue + "\n</li>";
+    }
+    document.getElementById("demo").innerText = table;
+    //console.log(table);
+    
+  }
+
+  ////
+
+  function loadXMLDoc(ta) {
+    var xhttp = new XMLHttpRequest();
+    
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        //document.getElementById("demo").innerText = this.responseText;
+        pa = this.responseText.split("\n");
+        console.log(pa);
+      }
+    };
+    //xhttp.open("GET", "https://raw.githubusercontent.com/payloadbox/xss-payload-list/master/Intruder/xss-payload-list.txt", true);
+    xhttp.open("GET", ta, true);
+    console.log(ta);
+    xhttp.send();
+  }
+
+  function recherche(exclus, inclus) {
+      let res = "";
+      for (var line = 0;line <pa.length;line++) {
+          if((pa[line].search(exclus) == -1) && (pa[line].search(inclus) > -1)) {
+              //res += pa[line] + ", " + inclus + ", " + exclus + "\n" + ", " + pa[line].search(inclus) + ", " + pa[line].search(exclus) + "\n";
+              res += pa[line] + "\n";
+              document.getElementById("result").innerText = res;
+          }
+      }
+    //document.write(res);
+    console.log(res);
+  }
+
+</script>
+
+</body>
+</html>
+
+

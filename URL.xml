@@ -1,0 +1,8 @@
+<CATALOG>
+    <SITE>
+        <URL>https://raw.githubusercontent.com/payloadbox/xss-payload-list/master/Intruder/xss-payload-list.txt</URL>
+        <URL>https://raw.githubusercontent.com/0xjukai/xss-payload/master/README.txt</URL>
+        <URL>https://raw.githubusercontent.com/swisskyrepo/PayloadsAllTheThings/master/XSS%20Injection/Intruders/IntrudersXSS.txt</URL>
+        <URL>https://gist.githubusercontent.com/michenriksen/d729cd67736d750b3551876bbedbe626/raw/e8c8a81cd0bc2e696be2ae92b1d1141711d7681b/xss-polyglots.txt</URL>
+    </SITE>
+</CATALOG>
